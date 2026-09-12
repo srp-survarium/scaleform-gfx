@@ -359,7 +359,7 @@ class EventChains
 {
 public:
     friend class MovieRoot;
-    typedef ArrayLH<WeakPtr<DisplayObject> >     Chain;
+    typedef ArrayLH<Ptr<DisplayObject> >         Chain;
     typedef HashIdentityLH<int, AutoPtr<Chain> > ChainHash;
 private:
     //struct Chain : ArrayLH<Ptr<DisplayObject> > {};

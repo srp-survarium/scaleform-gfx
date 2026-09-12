@@ -759,8 +759,8 @@ void TreeCacheShapeLayer::getShapeMatrixFrom3D(const TreeShape::NodeData* nd, Ma
     if (strokeStyle)
     {
         float s = mat->GetScale();
-        if (s < 0.05f) // TO DO: Move constants to ToleranceParams
-            s = 0.05f;
+        if (s < 0.005f) // TO DO: Move constants to ToleranceParams
+            s = 0.005f;
         *mat = Matrix2F::Scaling(s);
     }
 }

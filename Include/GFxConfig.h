@@ -145,9 +145,6 @@ otherwise accompanies this software in either electronic or hard copy form.
 // Enable the use of TCP/IP sockets
 // This is needed for AMP
 #define SF_ENABLE_SOCKETS
-#ifdef SF_BUILD_SHIPPING
-	#undef SF_ENABLE_SOCKETS
-#endif
 
 // Enable use of PCRE - Perl Compatible Regular Expressions
 #define SF_ENABLE_PCRE
@@ -644,3 +641,6 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 
 #endif
+
+// Retail initializer symbols prove the general 8-byte PMF representation.
+#pragma pointers_to_members(full_generality, multiple_inheritance)

@@ -108,17 +108,8 @@ namespace Instances { namespace fl_geom
 //##protect##"instance::PerspectiveProjection::focalLengthSet()"
         SF_UNUSED1(result);
         focalLength = (float)value;
-
-        // Must recompute the field of view, as it is linked to the focal length.
-        ASVM& asvm = static_cast<ASVM&>(GetVM());
-        // always use actual stage width for focalLength calc (whether root or stage not)
-        float stageWidth = asvm.GetMovieImpl()->GetVisibleFrameRect().Width();
-        fieldOfView = CalculateFOV(stageWidth);
         if (pDispObj)
-        {
-            pDispObj->SetFOV(fieldOfView);
             pDispObj->SetFocalLength(PixelsToTwips(focalLength));
-        }
 //##protect##"instance::PerspectiveProjection::focalLengthSet()"
     }
     void PerspectiveProjection::fieldOfViewGet(Value::Number& result)
@@ -132,18 +123,8 @@ namespace Instances { namespace fl_geom
 //##protect##"instance::PerspectiveProjection::fieldOfViewSet()"
         SF_UNUSED1(result);
         fieldOfView = (float)value;
-
-        // Must recompute the focal length, as it is linked to the field of view.
-        ASVM& asvm = static_cast<ASVM&>(GetVM());
-        // always use actual stage width for focalLength calc (whether root or stage not)
-        float stageWidth = asvm.GetMovieImpl()->GetVisibleFrameRect().Width();
-        focalLength = CalculateFocalLength(stageWidth);
-
         if (pDispObj)
-        {
             pDispObj->SetFOV(fieldOfView);
-            pDispObj->SetFocalLength(PixelsToTwips(focalLength));
-        }
 //##protect##"instance::PerspectiveProjection::fieldOfViewSet()"
     }
     void PerspectiveProjection::toMatrix3D(SPtr<Instances::fl_geom::Matrix3D>& result)
@@ -192,7 +173,7 @@ namespace Instances { namespace fl_geom
 
     Double PerspectiveProjection::CalculateFocalLength(float stageWidth)
     {
-        return (stageWidth/2.f) / tan(SF_DEGTORAD(fieldOfView/2.f));     // == 250/tan((Pi/180)*(55/2)) = 480.25
+        return (stageWidth/2.f) / tan((fieldOfView/2.f) * (SF_MATH_PI / (Double)180.0));     // == 250/tan((Pi/180)*(55/2)) = 480.25
     }
 
     Double PerspectiveProjection::CalculateFOV(float stageWidth)

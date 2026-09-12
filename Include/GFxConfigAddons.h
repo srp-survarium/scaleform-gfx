@@ -15,3 +15,6 @@ agreement provided at the time of installation or download, or which
 otherwise accompanies this software in either electronic or hard copy form.
 
 **************************************************************************/
+
+#define GFX_USE_VIDEO_WIN32
+

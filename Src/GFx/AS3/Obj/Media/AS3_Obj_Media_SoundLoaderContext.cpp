@@ -110,7 +110,7 @@ namespace ClassTraits { namespace fl_media
 namespace fl_media
 {
     const TypeInfo SoundLoaderContextTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "SoundLoaderContext", "flash.media", &fl::ObjectTI,
         TypeInfo::None
     };

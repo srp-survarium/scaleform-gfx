@@ -1229,11 +1229,6 @@ void PlaceObject3Tag::Unpack(PlaceObjectTag::UnpackedData& data)
     {
         sc.ReadU8();
     }
-    if (po3Flags & PlaceObject3Tag::PO3_Invisible)
-    {
-        data.Pos.Visible = sc.ReadU8();
-        data.Pos.SetVisibilityFlag();
-    }
     if (po2Flags & PlaceObject2Tag::PO2_HasActions)
     {        
         ProcessEventHandlers(data, sc, pData);

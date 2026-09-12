@@ -369,7 +369,7 @@ void SocketThreadMgr::SendShort(SInt16 sendValue)
 // Called from the advance thread
 void SocketThreadMgr::CheckEvents()
 {
-    Array<Ptr<EventInfo> > events;
+    Array<EventInfo> events;
     {
         Lock::Locker locker(&EventQueueLock);
         for (UPInt i = 0; i < EventQueue.GetSize(); ++i)
@@ -380,7 +380,7 @@ void SocketThreadMgr::CheckEvents()
     }
     for (UPInt i = 0; i < events.GetSize(); ++i)
     {
-        switch (events[i]->EventType)
+        switch (events[i].EventType)
         {
         case EventClose:
             AS3Sock->ExecuteCloseEvent();
@@ -390,13 +390,13 @@ void SocketThreadMgr::CheckEvents()
             break;
 #ifdef SF_AS3_VERSION_AIR
         case EventOutputProgress:
-            AS3Sock->ExecuteOutputProgressEvent(events[i]->EventParameters[0], events[i]->EventParameters[1]);
+            AS3Sock->ExecuteOutputProgressEvent(events[i].EventParameters[0], events[i].EventParameters[1]);
             break;
 #endif
         case EventSecurityError:
             break;
         case EventSocketData:
-            AS3Sock->ExecuteSocketDataEvent(events[i]->EventParameters[0], 0);
+            AS3Sock->ExecuteSocketDataEvent(events[i].EventParameters[0], 0);
             break;
         }
     }
@@ -602,13 +602,13 @@ bool SocketThreadMgr::TestServerLoop()
 
 void SocketThreadMgr::QueueEvent(EventTypes eventType, UInt32* eventParams, UInt32 numParams)
 {
-    Ptr<EventInfo> eventInfo = SF_HEAP_AUTO_NEW(this) EventInfo();
-    eventInfo->EventType = eventType;
+    Lock::Locker locker(&EventQueueLock);
+    EventInfo eventInfo;
+    eventInfo.EventType = eventType;
     for (UInt32 i = 0; i < numParams; ++i)
     {
-        eventInfo->EventParameters.PushBack(eventParams[i]);
+        eventInfo.EventParameters.PushBack(eventParams[i]);
     }
-    Lock::Locker locker(&EventQueueLock);
     EventQueue.PushBack(eventInfo);
 }
 

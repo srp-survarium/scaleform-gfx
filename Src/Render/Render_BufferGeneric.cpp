@@ -31,31 +31,19 @@ inline ImageSize RenderBufferManager::RoundUpImageSize(const ImageSize& size) co
     }
     else
     {
-        return ImageSize(Alg::Max<UInt32>(32, (size.Width + 31) & ~31), 
+        return ImageSize(Alg::Max<UInt32>(32, (size.Width + 31) & ~31),
                          Alg::Max<UInt32>(32, (size.Height + 31) & ~31));
     }
 }
 
 // Matches image size; inputs should be rounded.
-inline bool MatchSize(RenderBufferType type, DSSizeMode sizeMode, const ImageSize& cachedSize, const ImageSize& size)
+inline bool MatchSize(RenderBufferType type, bool exact, const ImageSize& cachedSize, const ImageSize& size)
 {
     // Some platforms requires the depth stencil buffer to be exactly the same size as
-    // the render buffer. In this case, do not use an area calculation, ensure that the 
+    // the render buffer. In this case, do not use an area calculation, ensure that the
     // are exactly the same size.
-    switch (sizeMode)
-    {
-    case DSSM_None:
-        // Do nothing
-        break;
-
-    case DSSM_Exact:
+    if (exact && type == RBuffer_DepthStencil)
         return size.Width == cachedSize.Width && size.Height == cachedSize.Height;
-
-    case DSSM_EqualOrBigger:
-        return cachedSize.Width >= size.Width && cachedSize.Height >= size.Height;
-    }
-
-    SF_UNUSED(type);
     if ((size.Width > cachedSize.Width) || (size.Height > cachedSize.Height))
         return false;
 
@@ -63,14 +51,14 @@ inline bool MatchSize(RenderBufferType type, DSSizeMode sizeMode, const ImageSiz
     // buffer, in which case we can always have it.
     if (((cachedSize.Area() * 27)/32) > size.Area() )
         return false;
-    
+
     return true;
 }
 
-bool CacheData::Match(const ImageSize& size, DSSizeMode sizeMode, RenderBufferType type, ImageFormat format) const
+bool CacheData::Match(const ImageSize& size, bool exact, RenderBufferType type, ImageFormat format) const
 {
     if ((pBuffer->GetType() == type) && (Format == format))
-        return MatchSize(type, sizeMode, pBuffer->GetBufferSize(), size);
+        return MatchSize(type, exact, pBuffer->GetBufferSize(), size);
     return false;
 }
 
@@ -78,13 +66,13 @@ bool CacheData::Match(const ImageSize& size, DSSizeMode sizeMode, RenderBufferTy
 //------------------------------------------------------------------------
 // ***** RenderBufferManager
 
-RenderBufferManager::RenderBufferManager(DSSizeMode depthStencilSizeMode,
+RenderBufferManager::RenderBufferManager(bool requireExactDepthStencil,
     UPInt memReuseLimit, UPInt memAbsoluteLimit)
     : CtorReuseLimit(memReuseLimit),
       ReuseLimit(0), AbsoluteLimit(memAbsoluteLimit),
-      AllocSize(0), DefImageFormat(Image_None), 
+      AllocSize(0), DefImageFormat(Image_None),
       RequirePow2(0),
-      DepthStencilSizeMode(depthStencilSizeMode)
+      RequireExactDepthStencil(requireExactDepthStencil)
 {
 }
 
@@ -171,7 +159,7 @@ RenderBufferManager::createRenderTarget(const ImageSize& size, RenderBufferType 
 
     // By default, render targets don't get added to the list,
     // as it is up to end user to free them.
-    return target;  
+    return target;
 }
 
 
@@ -183,25 +171,25 @@ RenderBufferManager::CreateTempRenderTarget(const ImageSize& size)
         return 0;
 
     CacheData*    data = 0;
-    RenderTarget* target = 0;    
+    RenderTarget* target = 0;
     ImageSize     roundedSize = RoundUpImageSize(size);
     ImageFormat   format = DefImageFormat;
     UPInt         requestSize = roundedSize.Area() * ImageData::GetFormatBitsPerPixel(format) / 8;
-       
+
     switch(reserveSpace(&data, roundedSize, RBuffer_Temporary, format, requestSize))
     {
     case RS_Match:
         // Reuse this item.
         target = data->GetRenderTarget();
         target->SetInUse(true); // Moves to RBCL_InUse; Status = InUse.
-        target->initViewRect(Rect<int>(size.Width, size.Height)); 
+        target->initViewRect(Rect<int>(size.Width, size.Height));
         target->AddRef();
         break;
 
     case RS_Alloc:
         // Allocate new texture.
         {
-            Ptr<Texture> texture = 
+            Ptr<Texture> texture =
                 *pTextureManager->CreateTexture(format, 1, roundedSize, ImageUse_RenderTarget);
             if (texture)
             {
@@ -234,7 +222,7 @@ RenderBufferManager::CreateDepthStencilBuffer(const ImageSize& size)
 
     CacheData*          data = 0;
     DepthStencilBuffer* buffer = 0;
-    ImageSize           roundedSize = (DepthStencilSizeMode == DSSM_Exact) ? size : RoundUpImageSize(size);
+    ImageSize           roundedSize = RequireExactDepthStencil ? size : RoundUpImageSize(size);
     UPInt               requestSize = roundedSize.Area() * 4;
 
     switch(reserveSpace(&data, roundedSize, RBuffer_DepthStencil, Image_None, requestSize))
@@ -268,7 +256,7 @@ RenderBufferManager::CreateDepthStencilBuffer(const ImageSize& size)
 
     case RS_Fail:
         break;
-    }   
+    }
 
     return buffer;
 }
@@ -326,7 +314,7 @@ RenderBufferManager::reserveSpace(CacheData **pdata,
         return RS_Match;
 
 
-    // 2. Evict 
+    // 2. Evict
 
     //  Evict ReuseLRU until allocation is possible.
     if (evictUntilAvailable(RBCL_Reuse_LRU, requestSize))
@@ -370,7 +358,7 @@ CacheData* RenderBufferManager::findMatch(RBCacheListType ltype, const ImageSize
     CacheData* data = BufferCache[ltype].GetLast();
     while(!BufferCache[ltype].IsNull(data))
     {
-        if (data->Match(size, (bufferType == RBuffer_DepthStencil) ? DepthStencilSizeMode : DSSM_None, bufferType, format))
+        if (data->Match(size, RequireExactDepthStencil, bufferType, format))
         {
             return data;
         }
@@ -418,7 +406,7 @@ void RenderBufferManager::evict(CacheData* p)
 
 void RenderBufferManager::evictAll(RBCacheListType ltype)
 {
-    while(!BufferCache[ltype].IsEmpty())    
+    while(!BufferCache[ltype].IsEmpty())
         evict(BufferCache[ltype].GetFirst());
 }
 
@@ -460,7 +448,7 @@ void RenderTarget::SetInUse(bool inUse)
             SF_ASSERT(RTStatus != RTS_Lost);
             getManager()->moveToFront(RBCL_InUse, this);
         }
-        
+
         RTStatus = RTS_InUse;
     }
     else
@@ -538,7 +526,7 @@ void DepthStencilBuffer::Release()
 void DepthStencilBuffer::onEvict()
 {
     SF_ASSERT(GetType() == RBuffer_DepthStencil);
-    SF_ASSERT(RefCount == 0);   
+    SF_ASSERT(RefCount == 0);
     delete this;
 }
 

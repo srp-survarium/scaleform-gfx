@@ -17,6 +17,10 @@ otherwise accompanies this software in either electronic or hard copy form.
 #define INC_SF_D3D1X_CONFIG_H
 #pragma once
 
+// survarium: force the D3D11 HAL (the build config does not define
+// SF_D3D_VERSION; 4.2 made it a required define, 4.0.15 carried this line).
+#define SF_D3D_VERSION 11
+
 #if !defined(SF_D3D_VERSION)
 #error SF_D3D_VERSION must be defined, and must be 10 or 11.
 #endif

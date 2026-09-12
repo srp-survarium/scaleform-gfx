@@ -13,6 +13,8 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 **************************************************************************/
 
+#include "pch.h"
+
 #include "Kernel/SF_Debug.h"
 #include "Kernel/SF_Random.h"
 #include "Render/D3D1x/D3D1x_HAL.h"
@@ -116,7 +118,7 @@ bool HAL::InitHAL(const D3D1x::HALInitParams& params)
         else
         {
             // Create the default render target, and manager.
-            pRenderBufferManager = *SF_HEAP_AUTO_NEW(this) RenderBufferManagerGeneric(RBGenericImpl::DSSM_Exact);
+            pRenderBufferManager = *SF_HEAP_AUTO_NEW(this) RenderBufferManagerGeneric(true);
             if ( !pRenderBufferManager || !createDefaultRenderBuffer())
             {
                 ShutdownHAL();

@@ -13,6 +13,8 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 **************************************************************************/
 
+#include "pch.h"
+
 #include "D3D1x_Texture.h"
 #include "Render\Render_TextureUtil.h"
 #include "Kernel\SF_Debug.h"

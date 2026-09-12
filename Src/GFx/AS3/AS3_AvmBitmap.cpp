@@ -62,7 +62,7 @@ AvmBitmap::~AvmBitmap()
 // returns >0 if needs ExecuteCode (number of stack frames), 0 - otherwise
 unsigned AvmBitmap::CreateASInstance(bool execute)
 {
-    unsigned rv = 0;
+    unsigned rv = 1;
     if (!GetAS3Obj()) // create AS3 instance of Bitmap...
     {
         rv = AvmDisplayObj::CreateASInstance(execute);
@@ -84,41 +84,13 @@ unsigned AvmBitmap::CreateASInstance(bool execute)
             }
                 
             SPtr<Instances::fl_display::BitmapData> bmpData;
-
-            // resolve class name, check if id is associated with a custom class;
-            // use "flash.display.BitmapData" otherwise.
+            String className;
             const String* pclassName = pDispObj->GetResourceMovieDef()->GetNameOfExportedResource(pDispObj->GetId());
-            if (pclassName)
-            {
-                ASVM& vm = *GetAS3Root()->GetAVM();
-                Value v;
-                bool need2execute = vm.Construct(*pclassName, vm.GetCurrentAppDomain(), v, 2, params);
-
-                if (need2execute)
-                {
-                    if (execute)
-                        vm.ExecuteCode();
-                    else
-                        ++rv; // inc cnt of frames to execute later
-                }
-
-                if (!GetAS3Root()->GetAVM()->IsException() && !v.IsNullOrUndefined())
-                {
-                    bmpData = static_cast<Instances::fl_display::BitmapData *>(v.GetObject());
-                }
-                else
-                {
-                    bmpData = 0;
-                    if (GetAS3Root()->GetAVM()->IsException())
-                    {
-                        GetAS3Root()->GetAVM()->OutputAndIgnoreException();
-                    }
-                }
-            }
+            if (!pclassName)
+                className = "flash.display.BitmapData";
             else
-            {
-                GetAS3Root()->GetAVM()->ConstructBuiltinObject(bmpData, "flash.display.BitmapData", 2, params).DoNotCheck();
-            }
+                className = *pclassName;
+            GetAS3Root()->GetAVM()->ConstructBuiltinObject(bmpData, className, 2, params).DoNotCheck();
 
             if (bmpData)
             {

@@ -1231,8 +1231,8 @@ void MovieImpl::MakeViewAndPersp3D(Matrix3F *matView, Matrix4F *matPersp,
                                    float focalLength,                       // this is normally computed automatically, but the computed value can be overridden here 
                                    bool bInvertY)                           // if the Y axis should be inverted
 {
-    const float nearZ = focalLength ? focalLength / 100.0f : 1.0f;
-    const float farZ  = focalLength ? focalLength * 100.0f : 100000.0f;
+    const float nearZ = 1.0f;
+    const float farZ  = 100000.0f;
 
     float displayWidth = fabs(frameRect.Width());
 //    float displayHeight= fabs(frameRect.Height());

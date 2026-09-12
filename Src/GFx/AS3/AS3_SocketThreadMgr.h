@@ -93,7 +93,7 @@ private:
         EventSecurityError,
         EventSocketData
     };
-    struct EventInfo : public RefCountBase<EventInfo, StatMV_Other_Mem>
+    struct EventInfo
     {
         EventTypes EventType;
         Array<UInt32> EventParameters;
@@ -114,7 +114,7 @@ private:
     bool Exiting;
     UInt32 ConnectTimeout;
     mutable Lock EventQueueLock;
-    ArrayLH<Ptr<EventInfo>, StatMV_Other_Mem> EventQueue;
+    ArrayLH<EventInfo, StatMV_Other_Mem> EventQueue;
 
     // Thread function
     static int SocketThreadLoop(Thread* sendThread, void* param);

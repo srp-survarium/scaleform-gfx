@@ -3130,7 +3130,6 @@ namespace TR
     {
         using namespace Abc;
 
-        StringBuffer sb;
         Tracer& tr = GetTracer();
         const UInt8* pCode = tr.pCode;
         OpcodeCP = bcp - 1;

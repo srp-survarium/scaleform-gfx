@@ -302,7 +302,6 @@ void    DisplayList::AddDisplayObject(DisplayObjectBase* owner, const CharPosInf
     ch->SetClipDepth(pos.ClipDepth);
     ch->SetBlendMode((DisplayObjectBase::BlendType)pos.BlendMode);
     ch->SetFilters(pos.pFilters.GetPtr());
-    ch->SetVisible(pos.Visible ? true : false);
 
     // Insert into the display list...
     SF_ASSERT(index == FindDisplayIndex(depth));
@@ -388,8 +387,6 @@ void    DisplayList::MoveDisplayObject(DisplayObjectBase* owner, const CharPosIn
         ch->SetMatrix(pos.Matrix_1);    
     if (pos.HasBlendMode())
         ch->SetBlendMode((DisplayObjectBase::BlendType)pos.BlendMode);
-    if (pos.HasVisibility())
-        ch->SetVisible(pos.Visible ? true : false);
     ch->SetFilters(pos.pFilters);
     ch->SetRatio(pos.Ratio);
 
@@ -452,7 +449,6 @@ void    DisplayList::ReplaceDisplayObject(DisplayObjectBase* owner, const CharPo
     ch->SetRatio(pos.Ratio);
     ch->SetClipDepth(pos.ClipDepth);    
     ch->SetFilters(pos.pFilters);
-    ch->SetVisible(pos.Visible ? true : false);
 
     ReplaceRenderTreeNode(owner, index);
 

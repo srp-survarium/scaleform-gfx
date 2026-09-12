@@ -24,15 +24,10 @@ namespace Scaleform { namespace Render {
 
 MatrixState::MatrixState( HAL* phal ) : UVPOChanged(0), OrientationSet(0), S3DDisplay(StereoCenter), pHAL(phal)
 {
-    // All platforms (except GL) use this as their 'full viewport' quad. 
-    // Note that D3D9 and X360 require a half-pixel offset applied to match pixel centers, but
-    // this depends on the size of the target so it can't be done here.
-    FullViewportMVP = Matrix2F::Scaling(2,-2) * Matrix2F::Translation(-0.5f, -0.5f);
 }
 
 MatrixState::MatrixState() : UVPOChanged(0), OrientationSet(0), S3DDisplay(StereoCenter), pHAL(NULL)
 {
-    FullViewportMVP = Matrix2F::Scaling(2,-2) * Matrix2F::Translation(-0.5f, -0.5f);
 }
 
 void MatrixState::SetUserMatrix(const Matrix2F& user)
@@ -258,11 +253,6 @@ void MatrixState::getStereoProjectionMatrix(
         tmpMat = original * preProjectionMove;
         *right = postProjectionMove * tmpMat;
     }
-}
-
-Matrix2F& MatrixState::GetFullViewportMatrix()
-{
-    return FullViewportMVP;
 }
 
 const Matrix4F& MatrixState::GetUVP() const
@@ -743,11 +733,9 @@ void HAL::applyBlendMode(BlendMode mode, bool sourceAc, bool forceAc)
     mode = Profiler.GetBlendMode(mode);
 
     // Multiply requires different fill mode, save it in the HAL's fill flags.
-    FillFlags &= ~(FF_BlendMask);
+    FillFlags &= ~(FF_Multiply);
     if ( mode == Blend_Multiply || mode == Blend_Screen )
         FillFlags |= FF_Multiply;
-    else if (mode == Blend_Invert)
-        FillFlags |= FF_Invert;
 
     // Apply or remove blending fill flag.
     if (mode > Blend_Normal)

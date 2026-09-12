@@ -385,8 +385,6 @@ public:
 
         if (fillflags & FF_Multiply)
             shader += ShaderDesc::ST_base_Mul;
-        if (fillflags & FF_Invert)
-            shader += ShaderDesc::ST_base_Inv;
 
         if (fillflags & FF_3DProjection)
             shader += ShaderDesc::ST_base_Position3d;
@@ -573,19 +571,16 @@ public:
         if ((fillFlags & FF_Blending) == 0 && pfill->RequiresBlend())
             fillFlags |= FF_Blending;
 
-        // If we do not have CxForms, or blending, check the color transforms of the matrices to determine if we will need to apply them.
-        if ((fillFlags & (FF_Blending|FF_Cxform)) != (FF_Blending|FF_Cxform))
+        // Check the color transforms of the matrices to determine if we will need to apply them.
+        for (unsigned i = 0; i < meshCount; i++)
         {
-            for (unsigned i = 0; i < meshCount; i++)
+            Cxform finalCx = Profiler->GetCxform(pmeshes[i].M.GetCxform());
+            if (finalCx != Cxform::Identity)
             {
-                Cxform finalCx = Profiler->GetCxform(pmeshes[i].M.GetCxform());
-                if (finalCx != Cxform::Identity)
-                {
-                    fillFlags |= FF_Cxform;
-                    if (finalCx.RequiresBlend())
-                        fillFlags |= FF_Blending;
-                    break;
-                }
+                fillFlags |= FF_Cxform;
+                if (finalCx.RequiresBlend())
+                    fillFlags |= FF_Blending;
+                break;
             }
         }
 

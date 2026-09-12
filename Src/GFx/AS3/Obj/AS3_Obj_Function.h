@@ -27,9 +27,6 @@ class VTable;
 
 namespace fl
 {
-    extern const TypeInfo FunctionTI;
-    extern const TypeInfo FunctionTICpp;
-    extern const TypeInfo FunctionTIThunk;
     extern const ClassInfo FunctionCI;
     extern const ClassInfo FunctionCICpp;
     extern const ClassInfo FunctionCIThunk;

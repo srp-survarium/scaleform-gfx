@@ -377,15 +377,6 @@ bool FilterEffect::UpdateMatrix(const Matrix2F& boundsMatrix, const Matrix2F& ne
                           !Alg::ToleranceEqual(newNodeMatrix.GetYScale(), nodeMatrix.GetYScale(), tolerance);
         bool deltaRot   = !Alg::ToleranceEqual(newNodeMatrix.GetRotation(), nodeMatrix.GetRotation(), tolerance);
 
-        // Also compare the bounds matrices, to see if they have changed. Likely the only one that would be different
-        // between the node matrices is scale, as the filter/CaB primitive could change shape, but remain in the same place.
-        const Matrix2F& oldBoundsMtx = BoundsMatrix.GetMatrix2D();
-        deltaTrans |=   !Alg::ToleranceEqual(boundsMatrix.Tx(), oldBoundsMtx.Tx(), tolerance) || 
-                        !Alg::ToleranceEqual(boundsMatrix.Ty(), oldBoundsMtx.Ty(), tolerance);
-        deltaScale |=   !Alg::ToleranceEqual(boundsMatrix.GetXScale(), oldBoundsMtx.GetXScale(), tolerance) ||
-                        !Alg::ToleranceEqual(boundsMatrix.GetYScale(), oldBoundsMtx.GetYScale(), tolerance);
-        deltaRot   |=   !Alg::ToleranceEqual(boundsMatrix.GetRotation(), oldBoundsMtx.GetRotation(), tolerance);
-
         const FilterSet* filters = reinterpret_cast<const FilterSet*>(StartEntry.Key.GetData());
         willCache = filters->CanCacheAcrossTransform(deltaTrans, deltaRot, deltaScale);
     }
