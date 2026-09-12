@@ -78,7 +78,7 @@ namespace ClassTraits { namespace fl_xml
 namespace fl_xml
 {
     const TypeInfo XMLNodeTypeTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "XMLNodeType", "flash.xml", &fl::ObjectTI,
         TypeInfo::None
     };

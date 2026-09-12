@@ -79,7 +79,7 @@ namespace ClassTraits { namespace fl_net
 namespace fl_net
 {
     const TypeInfo LocalConnectionTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "LocalConnection", "flash.net", &fl_events::EventDispatcherTI,
         TypeInfo::None
     };

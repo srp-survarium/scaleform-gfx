@@ -81,7 +81,7 @@ namespace ClassTraits { namespace fl_utils
 namespace fl_utils
 {
     const TypeInfo ProxyTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "Proxy", "flash.utils", &fl::ObjectTI,
         TypeInfo::None
     };

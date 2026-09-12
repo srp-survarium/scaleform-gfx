@@ -95,7 +95,7 @@ namespace ClassTraits { namespace fl_filters
 namespace fl_filters
 {
     const TypeInfo GradientGlowFilterTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "GradientGlowFilter", "flash.filters", &fl_filters::BitmapFilterTI,
         TypeInfo::None
     };

@@ -133,7 +133,7 @@ namespace ClassTraits { namespace fl_events
 namespace fl_events
 {
     const TypeInfo AsyncErrorEventTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "AsyncErrorEvent", "flash.events", &fl_events::ErrorEventTI,
         TypeInfo::None
     };

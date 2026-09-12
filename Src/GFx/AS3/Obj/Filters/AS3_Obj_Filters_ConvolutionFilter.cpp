@@ -91,7 +91,7 @@ namespace ClassTraits { namespace fl_filters
 namespace fl_filters
 {
     const TypeInfo ConvolutionFilterTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "ConvolutionFilter", "flash.filters", &fl_filters::BitmapFilterTI,
         TypeInfo::None
     };

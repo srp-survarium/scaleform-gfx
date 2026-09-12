@@ -88,7 +88,7 @@ namespace ClassTraits { namespace fl_system
 namespace fl_system
 {
     const TypeInfo SecurityPanelTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "SecurityPanel", "flash.system", &fl::ObjectTI,
         TypeInfo::None
     };

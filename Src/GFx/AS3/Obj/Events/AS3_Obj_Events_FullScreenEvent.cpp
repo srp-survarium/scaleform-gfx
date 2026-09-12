@@ -92,7 +92,7 @@ namespace ClassTraits { namespace fl_events
 namespace fl_events
 {
     const TypeInfo FullScreenEventTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "FullScreenEvent", "flash.events", &fl_events::ActivityEventTI,
         TypeInfo::None
     };

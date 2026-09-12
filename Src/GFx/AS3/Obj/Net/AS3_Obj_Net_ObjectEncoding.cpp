@@ -95,7 +95,7 @@ namespace ClassTraits { namespace fl_net
 namespace fl_net
 {
     const TypeInfo ObjectEncodingTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "ObjectEncoding", "flash.net", &fl::ObjectTI,
         TypeInfo::None
     };

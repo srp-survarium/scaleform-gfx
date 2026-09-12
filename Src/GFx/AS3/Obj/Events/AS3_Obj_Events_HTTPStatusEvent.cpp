@@ -99,7 +99,7 @@ namespace ClassTraits { namespace fl_events
 namespace fl_events
 {
     const TypeInfo HTTPStatusEventTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "HTTPStatusEvent", "flash.events", &fl_events::EventTI,
         TypeInfo::None
     };

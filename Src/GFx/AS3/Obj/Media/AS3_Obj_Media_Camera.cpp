@@ -106,7 +106,7 @@ namespace ClassTraits { namespace fl_media
 namespace fl_media
 {
     const TypeInfo CameraTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "Camera", "flash.media", &fl_events::EventDispatcherTI,
         TypeInfo::None
     };

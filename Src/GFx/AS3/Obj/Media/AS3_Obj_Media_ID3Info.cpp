@@ -120,7 +120,7 @@ namespace ClassTraits { namespace fl_media
 namespace fl_media
 {
     const TypeInfo ID3InfoTI = {
-        TypeInfo::CompileTime | TypeInfo::DynamicObject | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::DynamicObject | TypeInfo::Final,
         "ID3Info", "flash.media", &fl::ObjectTI,
         TypeInfo::None
     };

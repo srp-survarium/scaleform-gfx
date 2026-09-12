@@ -91,7 +91,7 @@ namespace ClassTraits { namespace fl_events
 namespace fl_events
 {
     const TypeInfo SecurityErrorEventTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "SecurityErrorEvent", "flash.events", &fl_events::ErrorEventTI,
         TypeInfo::None
     };

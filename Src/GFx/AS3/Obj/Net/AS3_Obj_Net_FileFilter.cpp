@@ -77,7 +77,7 @@ namespace ClassTraits { namespace fl_net
 namespace fl_net
 {
     const TypeInfo FileFilterTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "FileFilter", "flash.net", &fl::ObjectTI,
         TypeInfo::None
     };

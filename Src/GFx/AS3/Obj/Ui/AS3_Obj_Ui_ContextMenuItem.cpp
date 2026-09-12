@@ -78,7 +78,7 @@ namespace ClassTraits { namespace fl_ui
 namespace fl_ui
 {
     const TypeInfo ContextMenuItemTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "ContextMenuItem", "flash.ui", &fl_events::EventDispatcherTI,
         TypeInfo::None
     };

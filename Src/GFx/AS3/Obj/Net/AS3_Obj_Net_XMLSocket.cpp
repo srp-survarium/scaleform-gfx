@@ -75,7 +75,7 @@ namespace ClassTraits { namespace fl_net
 namespace fl_net
 {
     const TypeInfo XMLSocketTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "XMLSocket", "flash.net", &fl_events::EventDispatcherTI,
         TypeInfo::None
     };

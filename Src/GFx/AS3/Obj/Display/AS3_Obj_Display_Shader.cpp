@@ -80,7 +80,7 @@ namespace ClassTraits { namespace fl_display
 namespace fl_display
 {
     const TypeInfo ShaderTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "Shader", "flash.display", &fl::ObjectTI,
         TypeInfo::None
     };

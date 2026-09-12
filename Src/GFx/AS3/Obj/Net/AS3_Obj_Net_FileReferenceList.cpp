@@ -74,7 +74,7 @@ namespace ClassTraits { namespace fl_net
 namespace fl_net
 {
     const TypeInfo FileReferenceListTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "FileReferenceList", "flash.net", &fl_events::EventDispatcherTI,
         TypeInfo::None
     };

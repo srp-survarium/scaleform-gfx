@@ -100,7 +100,7 @@ namespace fl_net
     };
 
     const TypeInfo URLStreamTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "URLStream", "flash.net", &fl_events::EventDispatcherTI,
         URLStreamImplements
     };

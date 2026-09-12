@@ -104,7 +104,7 @@ namespace ClassTraits { namespace fl_system
 namespace fl_system
 {
     const TypeInfo SecurityTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "Security", "flash.system", &fl::ObjectTI,
         TypeInfo::None
     };

@@ -75,7 +75,7 @@ namespace ClassTraits { namespace fl_accessibility
 namespace fl_accessibility
 {
     const TypeInfo AccessibilityTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "Accessibility", "flash.accessibility", &fl::ObjectTI,
         TypeInfo::None
     };

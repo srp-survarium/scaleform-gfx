@@ -104,7 +104,7 @@ namespace ClassTraits { namespace fl_media
 namespace fl_media
 {
     const TypeInfo MicrophoneTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "Microphone", "flash.media", &fl_events::EventDispatcherTI,
         TypeInfo::None
     };

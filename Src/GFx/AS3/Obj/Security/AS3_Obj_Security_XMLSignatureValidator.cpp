@@ -91,7 +91,7 @@ namespace ClassTraits { namespace fl_security
 namespace fl_security
 {
     const TypeInfo XMLSignatureValidatorTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "XMLSignatureValidator", "flash.security", &fl_events::EventDispatcherTI,
         TypeInfo::None
     };

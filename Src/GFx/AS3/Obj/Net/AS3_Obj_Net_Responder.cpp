@@ -58,7 +58,7 @@ namespace ClassTraits { namespace fl_net
 namespace fl_net
 {
     const TypeInfo ResponderTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "Responder", "flash.net", &fl::ObjectTI,
         TypeInfo::None
     };

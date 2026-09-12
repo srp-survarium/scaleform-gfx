@@ -93,7 +93,7 @@ namespace ClassTraits { namespace fl_media
 namespace fl_media
 {
     const TypeInfo SoundMixerTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "SoundMixer", "flash.media", &fl::ObjectTI,
         TypeInfo::None
     };

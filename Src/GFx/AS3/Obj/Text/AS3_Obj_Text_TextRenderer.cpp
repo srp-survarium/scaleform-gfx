@@ -90,7 +90,7 @@ namespace ClassTraits { namespace fl_text
 namespace fl_text
 {
     const TypeInfo TextRendererTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "TextRenderer", "flash.text", &fl::ObjectTI,
         TypeInfo::None
     };

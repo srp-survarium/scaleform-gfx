@@ -95,7 +95,7 @@ namespace ClassTraits { namespace fl_events
 namespace fl_events
 {
     const TypeInfo DataEventTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "DataEvent", "flash.events", &fl_events::TextEventTI,
         TypeInfo::None
     };

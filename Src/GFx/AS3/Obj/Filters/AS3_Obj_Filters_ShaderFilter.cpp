@@ -81,7 +81,7 @@ namespace ClassTraits { namespace fl_filters
 namespace fl_filters
 {
     const TypeInfo ShaderFilterTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "ShaderFilter", "flash.filters", &fl_filters::BitmapFilterTI,
         TypeInfo::None
     };

@@ -138,7 +138,7 @@ namespace ClassTraits { namespace fl_xml
 namespace fl_xml
 {
     const TypeInfo XMLNodeTI = {
-        TypeInfo::CompileTime | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime,
         "XMLNode", "flash.xml", &fl::ObjectTI,
         TypeInfo::None
     };

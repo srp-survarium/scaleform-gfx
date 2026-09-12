@@ -92,7 +92,7 @@ namespace ClassTraits { namespace fl_filters
 namespace fl_filters
 {
     const TypeInfo DisplacementMapFilterTI = {
-        TypeInfo::CompileTime | TypeInfo::Final | TypeInfo::NotImplemented,
+        TypeInfo::CompileTime | TypeInfo::Final,
         "DisplacementMapFilter", "flash.filters", &fl_filters::BitmapFilterTI,
         TypeInfo::None
     };
